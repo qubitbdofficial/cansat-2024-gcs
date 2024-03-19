@@ -20,7 +20,7 @@ const webSocketServer = {
     const serialPort = new SerialPort({
       path: portName,
       baudRate: baudRate,
-      autoOpen: false,
+      autoOpen: true,
     });
 
     const parser = serialPort.pipe(new ReadlineParser({ delimiter: '\r\n' }));
@@ -32,6 +32,8 @@ const webSocketServer = {
 
     // Handle incoming serial data
     parser.on('data', (data) => {
+      console.log(data);
+      
       // const decoder = new TextDecoder();
       // const str = decoder.decode(data);
 

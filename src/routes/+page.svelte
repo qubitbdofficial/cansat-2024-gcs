@@ -5,45 +5,11 @@
   import SystemSteps from '@/components/pages/home/operation-status/OperationStatus .svelte';
   import { navbarHeight } from '@/stores/ui.store.';
   import * as Resizable from '@/components/ui/resizable';
-  import { io } from 'socket.io-client';
+  import { temperatureStore } from '@/stores/sensor.data.store';
+  // import { temperatureStore, tiltAngleStore } from '@/stores/sensor.data.store';
 
-  type Key =
-    | 'Latitude'
-    | 'Longitude'
-    | 'Altitude (GPS)'
-    | 'Battery Voltage'
-    | 'Temperature From BMP280'
-    | 'Distance';
-  type Data = [Key, string][];
-
-  const socket = io();
-
-  function splitStringIntoKeyValuePairs(input: string): {
-    [key: string]: string;
-  } {
-    const keyValuePairs: { [key: string]: string } = {};
-
-    const regexType1 = /([a-zA-Z_]+):\s?([0-9.]+|nan)\b/g;
-    const regexType2 = /([a-zA-Z\s]+):\s?([0-9.]+)\s?([a-zA-Z]+)\b/g;
-
-    let match;
-    while ((match = regexType1.exec(input)) !== null) {
-      keyValuePairs[match[1]] = match[2];
-    }
-    while ((match = regexType2.exec(input)) !== null) {
-      keyValuePairs[match[1]] = match[2] + ' ' + match[3];
-    }
-
-    return keyValuePairs;
-  }
-
-  socket.on('eventFromServer', (message) => {
-    console.log('eventFromServer', message);
-  });
-
-  socket.on('serialData', (message) => {
-    console.log(splitStringIntoKeyValuePairs(message), message);
-  });
+  
+ 
 </script>
 
 <section style="height: calc(100vh - {$navbarHeight}px);" class="">
